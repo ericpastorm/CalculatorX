@@ -1,8 +1,8 @@
-# Calculator++ ✨
+# CalculatorX ✨
 
 A modern, feature-rich web calculator built with a clean, responsive UI and a focus on a great user experience. This project was developed using modern web technologies like Vite and Tailwind CSS, resulting in a fast, efficient, and highly customizable application.
 
-### ➡️ [Live Demo](https://YourUsername.github.io/YourRepoName/) ⬅️
+### ➡️ [Live Demo](https://github.com/ericpastorm/CalculatorX) ⬅️
 
 ---
 
@@ -43,7 +43,7 @@ You need to have [Node.js](https://nodejs.org/) (which includes `npm`) installed
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/YourUsername/YourRepoName.git](https://github.com/YourUsername/YourRepoName.git)
+    git clone [https://github.com/ericpastorm/CalculatorX.git](https://github.com/ericpastorm/CalculatorX.git)
     ```
 
 2.  **Navigate into the project directory:**
