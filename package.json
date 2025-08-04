@@ -1,0 +1,20 @@
+{
+  "name": "calculadora-moderna",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "lucide-react": "^0.535.0",
+    "lucide-static": "^0.536.0",
+    "tailwindcss": "^4.1.11"
+  }
+}
