@@ -2,7 +2,7 @@
 
 A modern, feature-rich web calculator built with a clean, responsive UI and a focus on a great user experience. This project was developed using modern web technologies like Vite and Tailwind CSS, resulting in a fast, efficient, and highly customizable application.
 
-### ➡️ [Live Demo](https://github.com/ericpastorm/CalculatorX) ⬅️
+### ➡️ [Live Demo](https://ericpastorm.github.io/CalculatorX/) ⬅️
 
 ---
 
@@ -10,14 +10,14 @@ A modern, feature-rich web calculator built with a clean, responsive UI and a fo
 
 This isn't just a basic calculator. It includes a variety of features designed for a better user experience:
 
-* **Standard Arithmetic Operations:** Perform addition, subtraction, multiplication, and division.
-* **Dual-Theme Interface:** Toggle between a sleek dark mode and a clean light mode. Your preference is saved in your browser's local storage!
-* **Operation History:** The last completed calculation is always visible for quick reference.
-* **Full Keyboard Support:** Use your physical keyboard for all inputs, including numbers, operators, and functions like `Enter` (calculate), `Backspace` (delete), and `Escape` (clear).
+* **Dual-Theme Interface:** Toggle between a sleek dark mode and a clean light mode. Your preference is saved locally!
+* **Test Mode:** An interactive mode to practice your arithmetic skills! The calculator generates problems for you to solve and tracks your score.
+* **Standard Arithmetic Operations:** Perform addition, subtraction, multiplication, and division (with whole number results in test mode).
 * **Advanced Operations:** Includes percentage (`%`) and sign change (`+/-`) functionalities.
+* **Operation History:** The last completed calculation is always visible for quick reference in normal mode.
+* **Full Keyboard Support:** Use your physical keyboard for all inputs and functions.
 * **Responsive Design:** A great user experience on both desktop and mobile devices.
-* **Modern UI:** Built with Tailwind CSS for a utility-first, clean design, and enhanced with custom icons from the Lucide icon set.
-* **Animated Background:** A subtle, animated gradient background adds a touch of visual flair.
+* **Modern UI:** Built with Tailwind CSS and enhanced with custom icons from the Lucide icon set.
 
 ---
 
@@ -48,7 +48,7 @@ You need to have [Node.js](https://nodejs.org/) (which includes `npm`) installed
 
 2.  **Navigate into the project directory:**
     ```sh
-    cd YourRepoName
+    cd CalculatorX
     ```
 
 3.  **Install NPM packages:**
@@ -68,34 +68,19 @@ You need to have [Node.js](https://nodejs.org/) (which includes `npm`) installed
 
 This project is configured for easy deployment to GitHub Pages.
 
-1.  Make sure the `base` property in `vite.config.js` matches your repository name (e.g., `base: '/YourRepoName/'`).
+1.  Make sure the `base` property in `vite.config.js` matches your repository name (e.g., `base: '/CalculatorX/'`).
 2.  Run the deploy script:
     ```sh
     npm run deploy
     ```
-    This command will build the project and push the contents of the `dist` folder to the `gh-pages` branch, which is then served by GitHub Pages.
-
----
-
-## 🔮 Future Feature: Test Mode
-
-The next major feature planned for Calculator++ is an interactive **"Test Mode"** designed to help users practice their math skills.
-
-In this mode, the calculator will:
-1.  Automatically generate simple arithmetic problems (e.g., `15 * 3 = ?`).
-2.  Display the problem on the screen.
-3.  Allow the user to input their answer using the calculator keys.
-4.  Check if the user's answer is correct and provide immediate feedback.
-5.  Keep track of a score or a streak of correct answers.
-
-This will transform the calculator from a simple tool into an engaging educational app.
+    This command will build the project and push the contents of the `dist` folder to the `gh-pages` branch.
 
 ---
 
 ## 👤 Author
 
 **Eric Pastor**
-* Portfolio: [ericpastor.vercel.app](https://ericpastor.dev/)
+* Portfolio: [ericpastor.dev](https://ericpastor.dev/)
 * GitHub: [@ericpastorm](https://github.com/ericpastorm)
 
 ---

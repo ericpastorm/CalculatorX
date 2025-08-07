@@ -13,6 +13,87 @@ document.addEventListener('DOMContentLoaded', () => {
         displayValue: '0',
         needsReset: false,
         history: [],
+
+        isTestModeActive: false,
+        currentProblem: null, 
+        userAnswer: '',
+        score: 0,
+    };
+
+    const generateProblem = () => {
+        const operators = ['+', '-', '*', '/'];
+        const operator = operators[Math.floor(Math.random() * operators.length)];
+    
+        let num1, num2;
+
+        if (operator === '/') {
+            const result = Math.floor(Math.random() * 9) + 2;
+            num2 = Math.floor(Math.random() * 9) + 2;
+            num1 = result * num2;
+        } else {
+            num1 = Math.floor(Math.random() * 10) + 1;
+            num2 = Math.floor(Math.random() * 10) + 1;
+
+            if (operator === '-' && num1 < num2) {
+                [num1, num2] = [num2, num1];
+            }
+        }
+
+        const problem = {
+            num1,
+            num2,
+            operator,
+            question: `${num1} ${operator === '*' ? '×' : operator} ${num2} = ?`,
+            answer: eval(`${num1} ${operator} ${num2}`)
+        };
+
+        state.currentProblem = problem;
+    };
+
+    const startTestMode = () => {
+        state.isTestModeActive = true;
+        state.score = 0;
+        state.userAnswer = '';
+        generateProblem();
+        updateScreen();
+        updateTestButton();
+        console.log(`Modo Test Iniciado!`);
+        console.log(`Nuevo problema: ${state.currentProblem.question}`);
+    };
+
+    const endTestMode = () => {
+        state.isTestModeActive = false;
+        clearAll();
+        updateTestButton();
+        screen.textContent = '0';
+        console.log("Modo Test finalizado.");
+    };
+
+    const checkAnswer = () => {
+        if (!state.isTestModeActive) return;
+
+        const screenContainer = screen.parentElement;
+        const correctAnswer = state.currentProblem.answer;
+        const userAnswer = parseInt(state.userAnswer, 10);
+
+        if (userAnswer === correctAnswer) {
+            state.score++;
+            console.log(`¡Correcto! Tu puntuación es: ${state.score}`);
+            screenContainer.classList.add('bg-green-500/50');
+        } else {
+            console.log(`Incorrecto. La respuesta era ${correctAnswer}. Tu puntuación se reinicia.`);
+            state.score = 0;
+            screenContainer.classList.add('bg-red-500/50');
+        }
+
+        state.userAnswer = '';
+        updateScreen(); 
+    
+        setTimeout(() => {
+            screenContainer.classList.remove('bg-green-500/50', 'bg-red-500/50');
+            generateProblem();
+            updateScreen(); 
+        }, 500); 
     };
 
     const calculate = (n1, op, n2) => {
@@ -98,9 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateScreen = () => {
-        screen.textContent = state.displayValue;
-        if (state.displayValue.length > 16) screen.style.fontSize = '1.5rem';
-        else if (state.displayValue.length > 10) screen.style.fontSize = '2.25rem';
+        if (state.isTestModeActive) {
+            if (state.currentProblem) {
+                historyScreen.textContent = `Score: ${state.score} | ${state.currentProblem.question}`;
+            }
+            screen.textContent = state.userAnswer || '?';
+        } else {
+            historyScreen.textContent = state.history[state.history.length - 1] || '';
+            screen.textContent = state.displayValue;
+        }
+
+        if (screen.textContent.length > 16) screen.style.fontSize = '1.5rem';
+        else if (screen.textContent.length > 10) screen.style.fontSize = '2.25rem';
         else screen.style.fontSize = '3rem';
     };
 
@@ -124,15 +214,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { action, value } = button.dataset;
 
-        if (action === 'number') handleNumber(value);
-        if (action === 'operator') handleOperator(value);
-        if (action === 'decimal') handleDecimal();
-        if (action === 'delete') handleDelete();
-        if (action === 'sign') handleSign();
-        if (action === 'percent') handlePercent();
-        if (action === 'calculate') performCalculation();
-        if (action === 'clear') clearAll();
-        
+        if (action === 'test') {
+            state.isTestModeActive ? endTestMode() : startTestMode();
+            return; 
+        }
+
+        if (state.isTestModeActive) {
+            if (action === 'number') {
+                state.userAnswer += value;
+            }
+            if (action === 'calculate') {
+                checkAnswer();
+            }
+            if (action === 'delete') {
+                state.userAnswer = state.userAnswer.slice(0, -1);
+            }
+        } else {
+            if (action === 'number') handleNumber(value);
+            if (action === 'operator') handleOperator(value);
+            if (action === 'decimal') handleDecimal();
+            if (action === 'delete') handleDelete();
+            if (action === 'sign') handleSign();
+            if (action === 'percent') handlePercent();
+            if (action === 'calculate') performCalculation();
+            if (action === 'clear') clearAll();
+        }
+    
         updateScreen();
     });
 
@@ -140,14 +247,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = event.key;
         if (['/', '*', '-', '+', 'Enter', '%'].includes(key)) event.preventDefault();
 
-        if (!isNaN(key) && key.trim() !== '') handleNumber(key);
-        if (['+', '-', '*', '/'].includes(key)) handleOperator(key);
-        if (key === '.') handleDecimal();
-        if (key === 'Backspace') handleDelete();
-        if (key === '%') handlePercent();
-        if (key === 'Enter' || key === '=') performCalculation();
-        if (key === 'Escape' || key === 'Delete') clearAll();
-        
+        if (state.isTestModeActive) {
+            if (!isNaN(key) && key.trim() !== '') {
+                state.userAnswer += key;
+            }
+            if (key === 'Enter' || key === '=') {
+                checkAnswer();
+            }
+            if (key === 'Backspace') {
+                state.userAnswer = state.userAnswer.slice(0, -1);
+            }
+        } else {
+            if (!isNaN(key) && key.trim() !== '') handleNumber(key);
+            if (['+', '-', '*', '/'].includes(key)) handleOperator(key);
+            if (key === '.') handleDecimal();
+            if (key === 'Backspace') handleDelete();
+            if (key === '%') handlePercent();
+            if (key === 'Enter' || key === '=') performCalculation();
+            if (key === 'Escape' || key === 'Delete') clearAll();
+        }
+
         updateScreen();
     });
     
@@ -157,11 +276,31 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(newTheme);
     });
 
+    function updateTestButton() {
+        const testBtn = document.querySelector('button[data-action="test"]');
+        if (!testBtn) return;
+        const iconContainer = testBtn.querySelector('svg');
+        const compassSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mb-1"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`;
+        const xSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mb-1"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+        if (state.isTestModeActive) {
+            testBtn.querySelector('span').textContent = 'Salir';
+            testBtn.classList.add('bg-red-400', 'hover:bg-red-500');
+            testBtn.classList.remove('bg-gray-300', 'hover:bg-gray-400');
+            if (iconContainer) iconContainer.outerHTML = xSVG;
+        } else {
+            testBtn.querySelector('span').textContent = 'Test';
+            testBtn.classList.remove('bg-red-400', 'hover:bg-red-500');
+            testBtn.classList.add('bg-gray-300', 'hover:bg-gray-400');
+            if (iconContainer) iconContainer.outerHTML = compassSVG;
+        }
+    }
+
     const init = () => {
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyTheme(savedTheme);
         updateScreen();
         updateHistoryDisplay();
+        updateTestButton();
     };
     
     init();

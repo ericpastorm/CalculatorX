@@ -18,6 +18,7 @@
     }
     /* --- ESTILOS TEMA CLARO --- */
     .btn-number { @apply bg-white/80 text-[#2F3F47] hover:bg-gray-200 border border-black/5; }
+    .btn-decimal { @apply bg-[#fafdff] text-[#2F3F47] hover:bg-[#e6f0fa] border border-black/5; }
     .btn-operator { @apply bg-[#12CBC4] text-white hover:bg-[#1C918D] border border-sky-400/20; }
     .btn-clear { @apply bg-[#ED4C67] text-white hover:bg-[#CF2B46] border border-black/5; }
     .btn-delete { @apply bg-[#FFC312] text-white hover:bg-[#C59A16] border border-black/5; }
@@ -32,10 +33,22 @@
         @apply text-[#2F3F47]
     
     }
+    #theme-toggle-btn {
+        @apply bg-gray-200 hover:bg-gray-400 border border-gray-300/80;
+    }
+    #theme-toggle-btn svg {
+        @apply text-gray-400 hover:text-gray-500;
+    }
 
     /* --- ESTILOS TEMA OSCURO --- */
     .dark .btn { @apply border-white/10; }
     .dark .btn-number { @apply bg-gray-600/80 text-white hover:bg-[#374151]; }
+    .dark #theme-toggle-btn {
+        @apply bg-gray-700/80 text-white hover:bg-white/10 border border-white/20;
+    }
+    .dark #theme-toggle-btn svg {
+        @apply text-white/40 hover:text-white;
+    }
     .dark .btn-operator { @apply bg-[#e7bb2a] hover:bg-[#b39a1c]; }
     .dark .btn-clear { @apply bg-[#E7332A] hover:bg-[#b3241c]; }
     .dark .btn-delete { @apply bg-[#e7602a] hover:bg-[#b3471c]; }
